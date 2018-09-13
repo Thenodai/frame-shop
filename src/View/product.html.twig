@@ -1,4 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<p>Hello {{ name }}</p>
+    <p class="p">Hello {{ name }}</p>
+    {% for product in products %}
+        {{ product.id }}
+    {% endfor %}
+    <!-- kaip ismesti friendShop ir kodel post nepaduoda -->
+    <form action="/friendShop/order/create" method="post">
+        <input name="address">
+        <input type="submit">
+    </form>
 {% endblock %}

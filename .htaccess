@@ -1,8 +1,42 @@
-# Turn on the rewrite engine
-RewriteEngine  on
-# If the request doesn't end in .php (Case insensitive) continue processing rules
-RewriteCond %{REQUEST_URI} !\.php$ [NC]
-# If the request doesn't end in a slash continue processing the rules
-RewriteCond %{REQUEST_URI} [^/]$
-# Rewrite the request with a .php extension. L means this is the 'Last' rule
-RewriteRule ^(.*)$ $1.php [L]
+# Use the front controller as index file. It serves as fallback solution when
+# every other rewrite/redirect fails (e.g. in an aliased environment without
+# mod_rewrite). Additionally, this reduces the matching process for the
+# startpage (path "/") because otherwise Apache will apply the rewritting rules
+# to each configured DirectoryIndex file (e.g. index.php, index.html, index.pl).
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # - disable this feature by commenting the following 2 lines or
+    # - use Apache >= 2.3.9 and replace all L flags by END flags and remove the
+    #   following RewriteCond (best solution)
+    RewriteCond %{ENV:REDIRECT_STATUS} ^$
+    RewriteRule ^index\.php(/(.*)|$) %{CONTEXT_PREFIX}/$2 [R=301,L]
+
+    # If the requested filename exists, simply serve it.
+    # We only want to let Apache serve files and not directories.
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule .? - [L]
+
+    # The following rewrites all other queries to the front controller. The
+    # condition ensures that if you are using Apache aliases to do mass virtual
+    # hosting, the base path will be prepended to allow proper resolution of the
+    # app.php file; it will work in non-aliased environments as well, providing
+    # a safe, one-size fits all solution.
+    RewriteCond %{REQUEST_URI}::$1 ^(/.+)(.+)::\2$
+    RewriteRule ^(.*) - [E=BASE:%1]
+    #RewriteRule .? %{ENV:BASE}app_dev.php [L]
+    RewriteRule .? %{ENV:BASE}index.php [L]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+    <IfModule mod_alias.c>
+        # When mod_rewrite is not available, we instruct a temporary redirect of
+        # the startpage to the front controller explicitly so that the website
+        # and the generated links can still be used.
+        #RedirectMatch 302 ^/$ /app_dev.php/
+        RedirectMatch 302 ^/$ /index.php/
+        # RedirectTemp cannot be used instead
+    </IfModule>
+</IfModule>
