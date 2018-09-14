@@ -6,7 +6,7 @@ namespace App\Repository;
 use App\Model\Order;
 use PDO;
 
-class OrderRepository extends Connection
+class OrderRepository extends ConnectionHandler
 {
     public function find(string $id): Order
     {

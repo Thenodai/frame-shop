@@ -13,6 +13,7 @@ class ProductController extends BaseController
 
     public function __construct()
     {
+        //todo wtf
         $this->repository = new ProductRepository();
     }
 

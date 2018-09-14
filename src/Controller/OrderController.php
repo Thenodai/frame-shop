@@ -14,6 +14,7 @@ class OrderController extends BaseController
 
     public function __construct()
     {
+        //todo wtf
         $this->orderRepository = new OrderRepository();
     }
 
@@ -28,7 +29,7 @@ class OrderController extends BaseController
     {
         $order = new Order();
 
-        //!post redirectToRoute();
+        //todo: !post redirectToRoute();
         if ($request->isMethod('post')) {
             $order->setAddress($request->get('address'));
         }

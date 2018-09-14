@@ -6,7 +6,7 @@ namespace App\Repository;
 use InvalidArgumentException;
 use PDO;
 
-abstract class Connection
+abstract class ConnectionHandler
 {
     protected $dbh;
 

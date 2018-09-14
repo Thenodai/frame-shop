@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-class ProductRepository extends Connection
+class ProductRepository extends ConnectionHandler
 {
     public function findProduct(): array
     {
