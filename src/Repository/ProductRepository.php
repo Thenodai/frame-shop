@@ -9,7 +9,7 @@ class ProductRepository extends ConnectionHandler
 {
     public function findAll(): array
     {
-        $statement = $this->connection->prepare("Select * FROM friend_shop.product");
+        $statement = $this->connection->prepare("Select * FROM products");
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Model\Product');
 
