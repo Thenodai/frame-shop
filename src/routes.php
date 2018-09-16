@@ -3,7 +3,9 @@
 use Symfony\Component\Routing;
 
 $routes = new Routing\RouteCollection();
-
+$routes->add('base', new Routing\Route('/', [
+    '_controller' => 'App\Controller\BaseController::redirect',
+]));
 $routes->add('order', new Routing\Route('/order/{page}', [
     'page' => '1',
     '_controller' => 'App\Controller\OrderController::index',
