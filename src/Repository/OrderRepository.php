@@ -30,16 +30,15 @@ class OrderRepository extends ConnectionHandler
         $statement->bindValue(':offset', $filter->getOffset(), PDO::PARAM_INT);
         $statement->execute();
 
-        $st = $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\Order');
-        $a = $statement->fetchAll();
-        return $a;
+        $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\Order');
+        return $statement->fetchAll();
     }
 
     public function findAll(Filter $filter): array
     {
         $statement = $this->connection->prepare('
             SELECT *
-            FROM friend_shop.orders
+            FROM orders
             LIMIT :limit
             OFFSET :offset
             ');
@@ -55,7 +54,7 @@ class OrderRepository extends ConnectionHandler
     {
         $statement = $this->connection->prepare('
             SELECT COUNT(*) 
-            FROM friend_shop.orders
+            FROM orders
             ');
         $statement->execute();
 

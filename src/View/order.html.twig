@@ -6,7 +6,7 @@
         <div class="card-header">
             Filter
         </div>
-        <form class="card" action="/friendShop/order/1" method="get">
+        <form class="card" action="/order/{{ currentPage }}" method="get">
             <div class="card-body row align-items-center">
                 <div class="col">
                     <label for="name">Name</label>
@@ -57,7 +57,7 @@
         {% if totalPages %}
             <ul class="pagination pagination-lg">
                 {% for i in 1..totalPages %}
-                    <li class="page-item"><a class="page-link" href="/friendShop/order/{{ i }}">{{ i }}</a></li>
+                    <li class="page-item"><a class="page-link" href="/order/{{ i }}">{{ i }}</a></li>
                 {% endfor %}
             </ul>
         {% endif %}

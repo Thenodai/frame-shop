@@ -41,7 +41,11 @@ class OrderController extends BaseController
             );
         }
 
-        return $this->render('order.html.twig', ['orders' => $orders, 'totalPages' => $totalPages]);
+        return $this->render('order.html.twig', [
+                'orders' => $orders,
+                'currentPage' => $page,
+                'totalPages' => $totalPages
+            ]);
     }
 
 
