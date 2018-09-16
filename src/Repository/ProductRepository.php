@@ -3,13 +3,15 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use PDO;
+
 class ProductRepository extends ConnectionHandler
 {
-    public function findProduct(): array
+    public function findAll(): array
     {
-        $statement = $this->dbh->query(
-            "Select * FROM friend_shop.product"
-        );
+        $statement = $this->connection->prepare("Select * FROM friend_shop.product");
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Model\Product');
 
         return $statement->fetchAll();
     }

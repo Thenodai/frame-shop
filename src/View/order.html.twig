@@ -1,6 +1,72 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    {% for order in orders %}
-        {{ order.address }}
-    {% endfor %}
+    <div class="col-md-12">
+    <h3 class="text-center">Orders</h3>
+    <div class="card justify-content-center">
+        <div class="card-header">
+            Filter
+        </div>
+        <form class="card" action="/friendShop/order/1" method="get">
+            <div class="card-body row align-items-center">
+                <div class="col">
+                    <label for="name">Name</label>
+                    <input class="form-control form-control-md" type="search" name="name"
+                           placeholder="Search by name">
+                </div>
+                <div class="col">
+                    <label for="address">Address</label>
+                    <input class="form-control form-control-md" type="search" name="address"
+                           placeholder="search by address">
+                </div>
+                <div class="col">
+                    <label for="deliveryType">Delivery type</label>
+                    <select class="form-control"
+                            name="deliveryType">
+                        <option value="" selected="selected">Any</option>
+                        <option value="DPD">DPD</option>
+                        <option value="LP">LP (Lithuanian Post)</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-md btn-success" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table tablesorter" id="order-table" style="text-align: center">
+        <thead>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Delivery type</th>
+        <th>Urgent</th>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.name }}</td>
+                <td>{{ order.address }}</td>
+                <td>{{ order.deliveryType }}</td>
+                <td>{% if order.urgent == 1 %} Yes {% else %} No {% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="col-md-6">
+        {% if totalPages %}
+            <ul class="pagination pagination-lg">
+                {% for i in 1..totalPages %}
+                    <li class="page-item"><a class="page-link" href="/friendShop/order/{{ i }}">{{ i }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+    <script>
+        $(document).ready(function () {
+                $("#order-table").tablesorter({sortList: [[0, 0], [1, 0]], widgets: ['zebra']});
+            }
+        );
+    </script>
 {% endblock %}

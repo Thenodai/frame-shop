@@ -3,38 +3,61 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Model\Order;
 use App\Repository\OrderRepository;
+use App\Service\FilterManager;
+use App\Service\OrderManager;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends BaseController
 {
     private $orderRepository;
+    private $orderManager;
+    private $filterManager;
 
     public function __construct()
     {
-        //todo wtf
         $this->orderRepository = new OrderRepository();
+        $this->orderManager = new OrderManager();
+        $this->filterManager = new FilterManager();
     }
 
-    public function index(): Response
+    public function index(Request $request, string $page): Response
     {
-        $orders = $this->orderRepository->findAll();
+        $filter = $this->filterManager->createFilter($request->query, $page);
 
-        return $this->render('order.html.twig', ['orders' => $orders]);
+        if ($this->filterManager->isFilterApplied($request->query)) {
+            $orders = $this->orderRepository->findByFilter($filter);
+        } else {
+            $orders = $this->orderRepository->findAll($filter);
+        }
+
+        if (count($orders) < FilterManager::DEFAULT_RECORDS_PER_PAGE) {
+            $totalPages = 1;
+        } else {
+            $totalPages = $this->filterManager->countPagesNeeded(
+                $this->orderRepository->findCount()
+            );
+        }
+
+        return $this->render('order.html.twig', ['orders' => $orders, 'totalPages' => $totalPages]);
     }
+
 
     public function create(Request $request): Response
     {
-        $order = new Order();
-
-        //todo: !post redirectToRoute();
         if ($request->isMethod('post')) {
-            $order->setAddress($request->get('address'));
+            if ($this->orderManager->isRequestValid($request)) {
+                $databaseUpdated = $this->orderRepository->save(
+                    $this->orderManager->createOrder($request)
+                );
+                if ($databaseUpdated === true) {
+                    return $this->redirect('/friendShop/order', Response::HTTP_CREATED);
+                }
+            }
         }
 
-        $orders = $this->orderRepository->findAll();
-        return $this->render('order.html.twig', ['orders' => $orders]);
+        return new RedirectResponse('/friendShop/product');
     }
 }

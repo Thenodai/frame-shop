@@ -1,12 +1,93 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <p class="p">Hello {{ name }}</p>
-    {% for product in products %}
-        {{ product.id }}
-    {% endfor %}
-    <!-- kaip ismesti friendShop ir kodel post nepaduoda -->
-    <form action="/friendShop/order/create" method="post">
-        <input name="address">
-        <input type="submit">
-    </form>
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-8">
+                <h3 class="my-3">{{ product.title }} ({{ product.price }} Eur)</h3>
+                <div class="col-md-8">
+                    <img class="img-fluid"
+                         src="http://www.emakriweuh.com/wp-content/uploads/2018/08/mesmerizing-antique-frames-5-10-944x867.jpg"
+                         alt="">
+                </div>
+                {% if errors %}
+                    {{ errors }}
+                {% endif %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="my-3">Product description</h3>
+                        <p>{{ product.description }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="my-3">Technical details</h3>
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td>Price:</td>
+                                <td>{{ product.price }} Eur</td>
+                            </tr>
+                            <tr>
+                                <td>width(cm.):</td>
+                                <td>{{ product.width }}</td>
+                            </tr>
+                            <tr>
+                                <td>height(cm.):</td>
+                                <td>{{ product.height }}</td>
+                            </tr>
+                            <tr>
+                                <td>color:</td>
+                                <td>{{ product.color }}</td>
+                            </tr>
+                            <tr>
+                                <td>design:</td>
+                                <td>{{ product.design }}</td>
+                            </tr>
+                            <tr>
+                                <td>hook:</td>
+                                <td>{% if product.hook == 1 %} Yes {% else %} No {% endif %}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="col-md-4">
+            <div class="panel">
+                <h4 class="panel-heading">
+                    New Order
+                </h4>
+                <form action="/friendShop/order/create" method="post">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Name"
+                               name="name"
+                               required="required">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Address"
+                               name="address"
+                               required="required">
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryType">Delivery type</label>
+                        <select class="form-control"
+                                name="deliveryType">
+                            <option value="DPD">DPD</option>
+                            <option value="LP">Lithuanian Post</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="checkbox" value="1" name="urgent">
+                        <label for="urgent">Urgent</label>
+                    </div>
+                    <input class="btn btn-block btn-success" id="submit" type="submit" value="Order">
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}

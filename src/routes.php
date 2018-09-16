@@ -4,7 +4,8 @@ use Symfony\Component\Routing;
 
 $routes = new Routing\RouteCollection();
 
-$routes->add('order', new Routing\Route('/order', [
+$routes->add('order', new Routing\Route('/order/{page}', [
+    'page' => '1',
     '_controller' => 'App\Controller\OrderController::index',
 ]));
 $routes->add('order_create', new Routing\Route('/order/create', [
