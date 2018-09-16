@@ -1,6 +1,8 @@
 RewriteEngine On
 RewriteBase /
 
+RewriteRule ^/$ /product [R]
+
 RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
 RewriteRule ^(.*) - [E=BASE:%1]
 
