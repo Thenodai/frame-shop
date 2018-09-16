@@ -10,7 +10,7 @@ class BaseController
 {
     use ControllerTrait;
 
-    public function redirect(): RedirectResponse
+    public function base(): RedirectResponse
     {
         return new RedirectResponse('/product');
     }
