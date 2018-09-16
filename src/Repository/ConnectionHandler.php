@@ -11,10 +11,10 @@ abstract class ConnectionHandler
     protected $connection;
 
     public function __construct(
-        string $host = 'localhost',
-        string $dbName = 'friend_shop',
-        string $username = 'root',
-        string $password = ''
+        string $host = 'eu-cdbr-west-02.cleardb.net',
+        string $dbName = 'heroku_5889624e54c8401',
+        string $username = 'bf8bbdcddbe0bc',
+        string $password = 'c2a60147'
     )
     {
         try {
