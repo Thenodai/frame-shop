@@ -48,7 +48,6 @@ class OrderController extends BaseController
             ]);
     }
 
-
     public function create(Request $request): Response
     {
         if ($request->isMethod('post')) {
@@ -57,11 +56,11 @@ class OrderController extends BaseController
                     $this->orderManager->createOrder($request)
                 );
                 if ($databaseUpdated === true) {
-                    return $this->redirect('/friendShop/order', Response::HTTP_CREATED);
+                    return $this->redirect('/order', Response::HTTP_CREATED);
                 }
             }
         }
 
-        return new RedirectResponse('/friendShop/product');
+        return new RedirectResponse('/product');
     }
 }
