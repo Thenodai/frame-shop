@@ -15,5 +15,8 @@ $routes->add('order_create', new Routing\Route('/order/create', [
 $routes->add('product', new Routing\Route('/product', [
     '_controller' => 'App\Controller\ProductController::index',
 ]));
+$routes->add('single', new Routing\Route('/single', [
+    '_controller' => 'App\Controller\BaseController::singleAction',
+]));
 
 return $routes;
