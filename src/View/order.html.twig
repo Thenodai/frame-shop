@@ -6,7 +6,7 @@
         <div class="card-header">
             Filter
         </div>
-        <form class="card" action="/order/{{ currentPage }}" method="get">
+        <form class="card" action="/order/1" method="get">
             <div class="card-body row align-items-center">
                 <div class="col">
                     <label for="name">Name</label>
@@ -35,11 +35,11 @@
     </div>
     <table class="table tablesorter" id="order-table" style="text-align: center">
         <thead>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Address</th>
-        <th>Delivery type</th>
-        <th>Urgent</th>
+        <th>Id <i class="fa fa-arrows-v"></i></th>
+        <th>Name <i class="fa fa-arrows-v"></i></th>
+        <th>Address <i class="fa fa-arrows-v"></i></th>
+        <th>Delivery type <i class="fa fa-arrows-v"></i></th>
+        <th>Urgent <i class="fa fa-arrows-v"></i></th>
         </thead>
         <tbody>
         {% for order in orders %}
@@ -57,7 +57,7 @@
         {% if totalPages %}
             <ul class="pagination pagination-lg">
                 {% for i in 1..totalPages %}
-                    <li class="page-item"><a class="page-link" href="/order/{{ i }}">{{ i }}</a></li>
+                    <li class="page-item"><a class="page-link" href="/order/{{ i }}{{ filterQuery }}">{{ i }}</a></li>
                 {% endfor %}
             </ul>
         {% endif %}

@@ -12,8 +12,6 @@ class OrderRepository extends ConnectionHandler
 {
     public function findByFilter(Filter $filter): array
     {
-        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-
         $statement = $this->connection->prepare('
             SELECT * 
              FROM orders
@@ -29,15 +27,15 @@ class OrderRepository extends ConnectionHandler
         $statement->bindValue(':limit', FilterManager::DEFAULT_RECORDS_PER_PAGE, PDO::PARAM_INT);
         $statement->bindValue(':offset', $filter->getOffset(), PDO::PARAM_INT);
         $statement->execute();
-
         $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\Order');
+
         return $statement->fetchAll();
     }
 
     public function findAll(Filter $filter): array
     {
         $statement = $this->connection->prepare('
-            SELECT *
+            SELECT * 
             FROM orders
             LIMIT :limit
             OFFSET :offset
@@ -45,17 +43,34 @@ class OrderRepository extends ConnectionHandler
         $statement->bindValue(':limit', FilterManager::DEFAULT_RECORDS_PER_PAGE, PDO::PARAM_INT);
         $statement->bindValue(':offset', $filter->getOffset(), PDO::PARAM_INT);
         $statement->execute();
-
         $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\Order');
+
         return $statement->fetchAll();
     }
 
-    public function findCount()
+    public function findTotalPages()
     {
         $statement = $this->connection->prepare('
             SELECT COUNT(*) 
-            FROM orders
+             FROM orders
             ');
+        $statement->execute();
+
+        return $statement->fetchColumn();
+    }
+
+    public function findTotalPagesByFilter(Filter $filter): string
+    {
+        $statement = $this->connection->prepare('
+            SELECT COUNT(*) 
+             FROM orders
+             WHERE name LIKE :name
+             OR address LIKE :address
+             OR deliveryType LIKE :deliveryType
+            ');
+        $statement->bindValue(':name', $this->sanitizeProperty($filter->getDataByKey('name')));
+        $statement->bindValue(':address', $this->sanitizeProperty($filter->getDataByKey('address')));
+        $statement->bindValue(':deliveryType', $this->sanitizeProperty($filter->getDataByKey('deliveryType')));
         $statement->execute();
 
         return $statement->fetchColumn();
@@ -69,7 +84,6 @@ class OrderRepository extends ConnectionHandler
             VALUES 
                 (:name, :address , :deliveryType, :urgent)
         ');
-
         $statement->bindValue(':name', $order->getName());
         $statement->bindValue(':address', $order->getAddress());
         $statement->bindValue(':deliveryType', $order->getDeliveryType());

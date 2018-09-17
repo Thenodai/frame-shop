@@ -12,8 +12,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OrderController extends BaseController
 {
+    /**
+     * @var OrderRepository
+     */
     private $orderRepository;
+
+    /**
+     * @var OrderManager
+     */
     private $orderManager;
+
+    /**
+     * @var FilterManager
+     */
     private $filterManager;
 
     public function __construct()
@@ -29,23 +40,24 @@ class OrderController extends BaseController
 
         if ($this->filterManager->isFilterApplied($request->query)) {
             $orders = $this->orderRepository->findByFilter($filter);
+            $totalPages = $this->filterManager->countPagesNeeded(
+                $this->orderRepository->findTotalPagesByFilter($filter)
+            );
         } else {
             $orders = $this->orderRepository->findAll($filter);
-        }
-
-        if (count($orders) < FilterManager::DEFAULT_RECORDS_PER_PAGE) {
-            $totalPages = 1;
-        } else {
             $totalPages = $this->filterManager->countPagesNeeded(
-                $this->orderRepository->findCount()
+                $this->orderRepository->findTotalPages()
             );
         }
 
+        $queryString = $this->filterManager->getQueryString($request);
+
         return $this->render('order.html.twig', [
-                'orders' => $orders,
-                'currentPage' => $page,
-                'totalPages' => $totalPages
-            ]);
+            'orders' => $orders,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+            'filterQuery' => $queryString
+        ]);
     }
 
     public function create(Request $request): Response
