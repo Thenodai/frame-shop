@@ -48,21 +48,33 @@
                 <td>{{ order.name }}</td>
                 <td>{{ order.address }}</td>
                 <td>{{ order.deliveryType }}</td>
-                <td>{% if order.urgent == 1 %} Yes {% else %} No {% endif %}</td>
+                <td>{% if order.urgent == 1 %}
+                        Yes
+                    {% else %}
+                        No
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    <div class="col-md-6">
-        {% if totalPages %}
-            <ul class="pagination pagination-lg">
+    {% if totalPages > 1 %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li {% if currentPage == 1 %} class="page-item disabled" {% endif %}>
+                    <a class="page-link" href="/order/{{ currentPage - 1 }}{{ queryString }}">Previous</a>
+                </li>
                 {% for i in 1..totalPages %}
-                    <li class="page-item"><a class="page-link" href="/order/{{ i }}{{ filterQuery }}">{{ i }}</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="/order/{{ i }}{{ queryString }}">{{ i }}</a>
+                    </li>
                 {% endfor %}
+                <li {% if currentPage == totalPages %}class="page-item disabled" {% endif %}>
+                    <a class="page-link" href="/order/{{ currentPage + 1 }}{{ queryString }}">Next</a>
+                </li>
             </ul>
-        {% endif %}
-    </div>
-
+        </nav>
+    {% endif %}
     <script>
         $(document).ready(function () {
                 $("#order-table").tablesorter({sortList: [[0, 0], [1, 0]], widgets: ['zebra']});

@@ -13,9 +13,7 @@ trait ControllerTrait
     public function render(string $view, array $parameters): Response
     {
         $loader = new Twig_Loader_Filesystem('src/View');
-        $twig = new Twig_Environment($loader, array(
-            'debug' => true,
-        ));
+        $twig = new Twig_Environment($loader, []);
         return new Response(
             $twig->render($view, $parameters)
         );

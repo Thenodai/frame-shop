@@ -49,14 +49,13 @@ class OrderController extends BaseController
                 $this->orderRepository->findTotalPages()
             );
         }
-
         $queryString = $this->filterManager->getQueryString($request);
 
         return $this->render('order.html.twig', [
             'orders' => $orders,
             'currentPage' => $page,
             'totalPages' => $totalPages,
-            'filterQuery' => $queryString
+            'queryString' => $queryString
         ]);
     }
 

@@ -43,7 +43,12 @@
                             </tr>
                             <tr>
                                 <td>hook:</td>
-                                <td>{% if product.hook == 1 %} Yes {% else %} No {% endif %}</td>
+                                <td>{% if product.hook == 1 %}
+                                        <i class="fa fa-check"></i>
+                                    {% else %}
+                                        <i class="fa fa-times"></i>
+                                    {% endif %}
+                                </td>
                             </tr>
                             </tbody>
                         </table>
