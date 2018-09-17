@@ -8,7 +8,7 @@ ir kiekvienas slaptai tikisi, kad jam galbūt atiteks originalas.
 
 O šiaip tai panaudojau porą symfony komponentų - pagrinde http-kernel'į ir routing'ą. 
 Taip pat twig'ą, kad nebūtų html ir php tag'ų maišalynės.
-Palaikiau MVC principa - controller'io actionai - template'ai, entities. 
+Palaikiau MVC principą - controller'io actionai - template'ai, entities. 
 Repositorijos atsakingos už querius į DB. Connectionui panaudojui PDO preparinant statementus, 
 siekiant išvengti SQL injection.
 Servisai atsakingi už tam tikrą biznio logiką.
