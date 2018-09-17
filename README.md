@@ -1,7 +1,7 @@
 # frame-shop
 
 O istorija prasidėjo šitaip - archeologas Viljamas išvažiavo į tartpautinį archaeologijos festivalį Didžiojoje Britanijoje.
-Prisipažino, kad iš šio renginio jis daug neisitki, tačiau šią nuomonę ir visą jo likusį gyvenimą pakeitė vienas slaptingas radinys.
+Prisipažino, kad iš šio renginio jis daug nesitiki, tačiau šią nuomonę ir visą jo likusį gyvenimą pakeitė vienas slaptingas radinys.
 Štai jis ir pardavinėja jį šioje mažoje internetinėje parduotuvėje, tai labai senas ir brangus paveikslo rėmas. 
 Mat Viljamas užsakė begalę reprodukcijų, kurias čia ir pardavinėja, tačiau pirkėjai būriuojasi dešimtimis, 
 ir kiekvienas slaptai tikisi, kad jam galbūt atiteks originalas.
