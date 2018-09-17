@@ -13,7 +13,7 @@ Repositorijos atsakingos už querius į DB. Connectionui panaudojui PDO preparin
 siekiant išvengti SQL injection.
 Servisai atsakingi už tam tikrą biznio logiką.
 Tiesa, sortingui panaudojau jquery lib'ą.
-Užsakymo forma reprezentacinė, tačiau su laiku įmanoma plėsti.
+Užsakymo forma šiek tiek 'kūdoka', tačiau su laiku įmanoma plėsti.
 
 Jei norima pasileisti lokaliai, yra sql dumpas. Reikės ir composer install'o.
 Taigi, naudota versijavimo sistema ir psr-4.
