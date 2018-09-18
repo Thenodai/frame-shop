@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class OrderManager
 {
-    public function isRequestValid(Request $request)
+    public function isRequestValid(Request $request): bool
     {
         if (
             $request->get('name') !== ''
